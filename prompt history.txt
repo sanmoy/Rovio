@@ -1,0 +1,57 @@
+I want you to first Initialize the project. Could you connect to the folder C:\ws\rovio\Matchmaking
+
+1. Use .net 10
+
+2. Four projects, one sln file MatchmakingService.sln
+
+
+---------
+First project
+Matchmaking.Api project handling POST/GET/DELETE on tickets. POST /games/{gameId}/matchmaking/tickets), poll it (GET .../tickets/{id}), cancel it (DELETE .../tickets/{id}).
+
+Standard project structure like 
+MatchmakingService.sln
+├── src/
+│   ├── Matchmaking.Api/            # Web API — POST/GET/DELETE /tickets
+│   │   ├── Controllers/
+│   │   ├── Program.cs
+
+The game client will submit the latency in their payload as the matchmaking service cannot effectively calculate the latency between a player and a server
+
+C# REST API receives a queue request that looks something like this:
+JSON
+
+{
+  "playerId": "user-12345",
+  "regionalLatencies": {
+    "eu-west-1": 25,
+    "eu-central-1": 45,
+    "us-east-1": 120
+  }
+}
+
+----------
+Second Project
+Matchmaking.Worker — a BackgroundService/Worker Service project. This is the 'core' and we will work on the algorithm later. 
+
+│   ├── Matchmaking.Worker/         # Worker Service — matching sweep + session assignment
+│   │   ├── PartitionMatcherService.cs   (BackgroundService)
+│   │   ├── Program.cs
+
+----------
+Third Prject
+Matchmaking.Storage service — It is a mock of a REDIS layer in actual deployment.Keep this deliberately dumb, searching all the tickets can be super inefficient. It's a REST wrapper around a ConcurrentDictionary<string, Ticket>, nothing more. This is not a core piece of the task.
+
+POST   /tickets                          create a ticket
+GET    /tickets/{id}                     fetch one (for the poll)
+PUT    /tickets/{id}/status              update status (Matched/Cancelled/TimedOut)
+GET    /tickets?gameId=&region=&status=Queued   full scan, filter in memory — fine, inefficiency is OK
+DELETE /tickets/{id}                     remove
+
+--------
+Fourth project
+A stub / mock game server which will expose APIs like create session. May be this is a bare minimal simulation (API endpoint wise) of an actual game service which hosts the game. 1v1 game config says capacity 2, a battle royale config says capacity 60 and the server actually knows how many players are already playing and how many slots left.
+
+-------
+
+Just first start with a high level structure. Also you are free to suggest if you see any red flag in the project structure I proposed. Suppose we need a separate data contract project which will be a common layer across multiple projects. However I do not see a requirement for a common data contract / classes as 1. This is a coding challenge, not a prod grade code. 2. Not many microservies, only one layer which is talking to db directly. Submission specifically said, no over engineering.

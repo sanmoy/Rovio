@@ -1,0 +1,13 @@
+## Tools Used-
+Google Gemini (free edition).
+
+## How I Used It- What tasks I delegated
+1. Used it to create project structure, boilerplate code, and test cases
+2. Provided the instruction to implement the matchmaking algorithm I envisioned
+3. Corrected the output on multiple occasions to make it simple and human-readable
+
+## Prompts That Mattered
+Specific instructions on how the service should look like. Detailed prompt attached in a separate file
+
+## What I'd Do Differently
+This project is designed as a 'code challenge submission', not a production-grade. I would add security / observability and other layers if time permits.
