@@ -1,0 +1,6 @@
+@Matchmaking.GameServer_HostAddress = http://localhost:5013
+
+GET {{Matchmaking.GameServer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
