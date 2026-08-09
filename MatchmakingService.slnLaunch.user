@@ -1,0 +1,23 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "src\\Matchmaking.Api\\Matchmaking.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Matchmaking.Storage\\Matchmaking.Storage.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Matchmaking.Worker\\Matchmaking.Worker.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Matchmaking.MockGameServer\\Matchmaking.MockGameServer.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
